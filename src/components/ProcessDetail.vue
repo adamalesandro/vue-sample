@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span>Status: <strong>{{process.status}}</strong></span>
+        <span class="display-1" :style="statusColor">{{process.status}}</span>
         <div v-if="hasLogData">
             <p>Log Data:</p>
             <ul>
@@ -20,7 +20,15 @@ export default {
     computed: {
         hasLogData: function() {
             return !this.process.logEntries.length == 0;
-        }
+        },
+        statusColor: function() {
+            if (this.process.status == "Failed")
+                return "color: red";
+            if (this.process.status == "Error")
+                return "color: red";
+            else
+                return "color: green";
+            },
     },
     props: {
         process: Object

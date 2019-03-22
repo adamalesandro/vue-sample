@@ -6,17 +6,15 @@
         <span>WATCH</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn small color="primary" @click="setFilter(null)">All</v-btn>
-      <v-btn small color="success" @click="setFilter('Success')">Success</v-btn>
-      <v-btn small color="error" @click="setFilter(['Failed', 'Error'])">Failed</v-btn>
+      <v-btn small flat color="primary" @click="setFilter(null)">All</v-btn>
+      <v-btn small flat color="success" @click="setFilter('Success')">Success</v-btn>
+      <v-btn small flat color="error" @click="setFilter(['Failed', 'Error'])">Failed</v-btn>
     </v-toolbar>
 
     <v-content>
-      <ul>
-        <li v-for="process in filteredData" :key="process.processName">
-        <ProcessSummary :process="process"/>
-        </li>
-      </ul>
+        <div v-for="process in filteredData" :key="process.processName">
+        <ProcessSummary :process="process" @deleted="onDeleteChild" />
+        </div>
     </v-content>
   </v-app>
 </template>
@@ -43,6 +41,9 @@ export default {
     methods: {
         setFilter: function(filterInput) {
             this.statusFilter = filterInput;
+        },
+        onDeleteChild: function(value) {
+          this.processes.splice(this.processes.indexOf(value), 1);
         }
     },
   data () {
